@@ -3,19 +3,35 @@
 skinparam classAttributeIconSize 0
 
 class Client {
+    - Projects : Project[]
+    - main(args : String[])
+}
 
+Abstract Node{
+    - Name : string
+    + getTime() : int
+    + addProject(Name)
+    + addTask(Task)
+    + isBottom()
+    + isTop()
 }
 
 class Project {
--projects : Project
--tasks : Task
-
+    - children : node[]
+    + addProject(Name)
+    + addTask(Task)
+    + getTime() : int
 }
 
 class Task {
-
+    - timer : TimerTask
+    + getTime() : int
 }
 
-Client --> "*" Project: Projects
 
-@enduml
+Project *-up-> "1..*" Node
+Client -left-> "*" Project: Project
+Task -right-|> Node
+Project -up-|> Node
+
+@enduml 
