@@ -1,0 +1,21 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Client {
+
+}
+
+class Project {
+-projects : Project
+-tasks : Task
+
+}
+
+class Task {
+
+}
+
+Client --> "*" Project: Projects
+
+@enduml
