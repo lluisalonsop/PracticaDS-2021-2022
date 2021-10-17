@@ -1,0 +1,60 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+class Client {
+    - Projects : Project[]
+    - main(args : String[])
+}
+
+Abstract Node{
+    - Name : string
+    + getTime() : int
+    + addProject(Name)
+    +stopTask(Name)
+    + addTask(Task)
+    + isBottom()
+    + isTop()
+}
+
+class Project {
+    - children : node[]
+    + addProject(Name)
+    + addTask(Name)
+    + stopTask(Name)
+    + getTime() : int
+}
+
+class Task {
+    - timer : TimerTask
+    + getTime() : int
+}
+class Interval{
+    - OnWork : boolean
+    -InitialDate : date
+    -FinalDate : date
+}
+
+Abstract Observable{
+    #notifyAll()
+    +addObserver(IObserver)
+    +removeObserver(IObserver)
+}
+class Timer{
+    #notifyAll()
+    +addObserver(IObserver)
+    +removeObserver(IObserver)
+}
+Interface (IObserver){
+    +registerObserver()
+    +unsubscribeObserver()
+    +update()
+}
+Interval *--> Task
+Project *-up-> "1..*" Node
+Client -left-> "*" Project: Project
+Task -right-|> Node
+Project -up-|> Node
+Timer --|> Observable
+Interval "Extends" ..|> IObserver
+@enduml

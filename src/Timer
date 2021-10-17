@@ -1,0 +1,8 @@
+import java.util.Observable;
+import java.util.Observer;
+class Timer extends Observable{
+    public void update(Observabe obj, Object arg){
+
+    }
+
+}
