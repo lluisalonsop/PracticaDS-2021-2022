@@ -15,7 +15,7 @@ public class Task extends Node {
     public long getTime() {
         long aux = 0;
         for (int i = 0; i < intervals.size(); i++) {
-            aux += intervals[i].getTime();
+            aux += intervals.get(i).calculateTime();
         }
     }
 
