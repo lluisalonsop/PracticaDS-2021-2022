@@ -11,25 +11,23 @@ public class Project extends Node {
 
     @Override
 
-    public void addProject(String name) {
+    public void addProject(Project aux) {
         for(int i=0; i<children.size();i++){
-            if(children.get(i).isEqual(name)){
+            if(children.get(i).getName() == aux.getName()){
                 System.out.print("This Project already exists!");
                 return;
             }
         }
-        Project aux = new Project(name);
         children.add(aux);
     }
 
-    public void addTask(String name) {
+    public void addTask(Task aux) {
         for(int i=0; i<children.size();i++){
-            if(children.get(i).isEqual(name)){
+            if(children.get(i).getName() == aux.getName()){
                 System.out.print("This Task already exists!");
                 return;
             }
         }
-        Task aux = new Task(name);
         children.add(aux);
     }
 
