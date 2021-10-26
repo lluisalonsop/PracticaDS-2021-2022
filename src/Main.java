@@ -1,61 +1,170 @@
+
+import org.json.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
-    public Project createTree() {
-        Project p1 = new Project("P1");
-        Project p2 = new Project("P2");
-        Project p3 = new Project("P2");
-        Task t1 = new Task("t2");
-        Task t2 = new Task("t2");
+    private static Node createFromJson(JSONObject jsonObject) {
 
-        p1.addNode(p2);
-        p1.addNode(t1);
-        p2.addNode(p3);
-        p3.addNode(t2);
+        if (jsonObject.get("class").toString().equals("Project")) {
+            Project result = new Project(jsonObject.getString("Name"));
+            JSONArray jsonArray = jsonObject.getJSONArray("activities");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                result.addNode(createFromJson(jsonArray.getJSONObject(i)));
+            }
+            return result;
+        }
 
-        return p1;
+        if (jsonObject.get("class").toString().equals("Task")) {
+
+            List<Interval> intervals = new ArrayList<Interval>();
+
+            JSONArray jsonArray = jsonObject.getJSONArray("activities");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject aux = jsonArray.getJSONObject(i);
+                intervals.add(new Interval(aux.getBoolean("Working"), aux.getString("InitialDate"),
+                        aux.getString("EndDate")));
+            }
+
+            Task result = new Task(jsonObject.getString("Name"), intervals);
+
+            return result;
+
+        }
+
+        return new Project("");
+    }
+
+    private static Node fromJson(String route) {
+        try {
+            Reader fileReader = new FileReader(route);
+            char[] destination = new char[102400];
+            fileReader.read(destination, 0, destination.length);
+
+            String object = new String(destination);
+
+            JSONObject jsonobj = new JSONObject(object);
+            Node root = createFromJson(jsonobj);
+            fileReader.close();
+            return root;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new Project("");
     }
 
     public static void main(String[] args) {
+
         Timer.getInstance();
-        System.out.println("HOLA");
-        Task tasca1 = new Task("Task1");
-        Task tasca2 = new Task("Task2");
-        tasca1.changeStatus(); // cuidao
-        tasca1.print();
 
+        System.out.println("Test Starts");
+
+        // ---Aqui deberia ir el import desde JSON-----
+        Project Master = new Project("Master");
+        Project Lists = new Project("Lists");
+        Task transportation = new Task("transportation");
+        Task firstList = new Task("first list");
+        Task secondList = new Task("second list");
+
+        Lists.addNode(firstList);
+        Lists.addNode(secondList);
+        Master.addNode(transportation);
+        Master.addNode(Lists);
+        // -------------------------------------------
+
+        Node root = fromJson("./Data/Initial.json"); // imported from JSON
+
+        System.out.println("Transportation Starts");
+        transportation.changeStatus(); // START
+
+        // 4 Second Sleep
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             System.out.println("Error Occurred.");
         }
-        tasca1.changeStatus();
-        tasca2.changeStatus();
+
+        System.out.println("Transportation Stops");
+        transportation.changeStatus(); // STOP
+
+        // 2 Second Sleep
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             System.out.println("Error Occurred.");
         }
-        tasca1.print();
-        tasca1.changeStatus();
-        tasca2.print();
+
+        System.out.println("First List Starts");
+        firstList.changeStatus(); // START
+
+        // 6 Second Sleep
         try {
-            Thread.sleep(1000);
+            Thread.sleep(6000);
         } catch (InterruptedException e) {
             System.out.println("Error Occurred.");
         }
-        // tasca1.print();
-        // tasca2.print();
 
-        Project p1 = new Project("P1");
-        Project p2 = new Project("P2");
-        Project p3 = new Project("P3");
+        System.out.println("Second List Starts");
+        secondList.changeStatus(); // START
 
-        p1.addNode(p2);
-        p1.addNode(tasca1);
-        p2.addNode(p3);
-        p3.addNode(tasca2);
+        // 4 Second Sleep
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            System.out.println("Error Occurred.");
+        }
 
-        p1.showTree(1);
-        System.out.println(tasca2.getTime());
+        System.out.println("First list Stops");
+        firstList.changeStatus(); // STOP
+
+        // 2 Second Sleep
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println("Error Occurred.");
+        }
+
+        System.out.println("Second list Stops");
+        secondList.changeStatus(); // STOP
+
+        // 2 Second Sleep
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println("Error Occurred.");
+        }
+
+        System.out.println("Transportation Starts");
+        transportation.changeStatus(); // START
+
+        // 4 Second Sleep
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            System.out.println("Error Occurred.");
+        }
+
+        System.out.println("Transportation Stops");
+        transportation.changeStatus(); // STOP
+
+        // ------PRINTS------
+        // Deberia ser un print desde el root que es importado del JSON
+        transportation.print();
+        firstList.print();
+        secondList.print();
+        // -------------------
+
+        root.showTree(1); // no muestra el de la ejecuccion actual sino de la de guardadoo del JSON
     }
+
 }

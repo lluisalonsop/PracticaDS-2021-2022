@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.List;
+import org.json.*;
 
 public abstract class Node {
     protected String Name;
@@ -34,6 +35,10 @@ public abstract class Node {
 
     protected long calculateTime() {
         return 0;
+    }
+
+    public JSONObject toJson() {
+        return new JSONObject();
     }
 
 }

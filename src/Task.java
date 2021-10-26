@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+import org.json.*;
 
 public class Task extends Node {
     private List<Interval> intervals;
@@ -8,6 +9,11 @@ public class Task extends Node {
     public Task(String name) {
         super(name);
         intervals = new ArrayList<Interval>();
+    }
+
+    public Task(String name, List<Interval> Intervals) {
+        super(name);
+        intervals = Intervals;
     }
 
     @Override
@@ -32,6 +38,18 @@ public class Task extends Node {
         }
     }
 
+    private void converseTimeandPrint(long sumatory) {
+        float seconds = sumatory % 60;
+        sumatory = (int) sumatory / 60;
+        float minutes = sumatory % 60;
+        sumatory = (int) sumatory / 60;
+        float hours = sumatory % 60;
+        sumatory = (int) sumatory / 60;
+        float days = sumatory % 24;
+        System.out
+                .print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : " + seconds + "\n");
+    }
+
     public void print() {
         System.out.println("\nPRINTING : " + Name + "\n");
         for (int i = 0; i < intervals.size(); i++) {
@@ -39,7 +57,8 @@ public class Task extends Node {
             intervals.get(i).printInterval();
         }
         long sumatory = calculateTime();
-        System.out.print("TOTAL TIME OF TASK " + Name + " in seconds: " + sumatory + "\n");
+        System.out.print("TOTAL TIME OF TASK " + Name + " : ");
+        converseTimeandPrint(sumatory);
     }
 
     public void showTree(int depth) {
@@ -57,5 +76,21 @@ public class Task extends Node {
 
     public long getTime() {
         return calculateTime();
+    }
+
+    public JSONObject toJson() {
+        JSONObject result = new JSONObject();
+        result.put("Name", Name);
+        result.put("class", "Task");
+
+        JSONArray aux = new JSONArray();
+
+        for (int i = 0; i < intervals.size(); i++) {
+            aux.put(intervals.get(i).toJson());
+        }
+
+        result.put("activities", aux);
+
+        return result;
     }
 }

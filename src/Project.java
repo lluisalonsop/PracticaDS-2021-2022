@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import org.json.*;
 
 public class Project extends Node {
 
@@ -49,5 +50,21 @@ public class Project extends Node {
             tiempo += children.get(i).getTime();
         }
         return tiempo;
+    }
+
+    public JSONObject toJson() {
+        JSONObject result = new JSONObject();
+        result.put("Name", Name);
+        result.put("class", "Project");
+
+        JSONArray aux = new JSONArray();
+
+        for (int i = 0; i < children.size(); i++) {
+            aux.put(children.get(i).toJson());
+        }
+
+        result.put("activities", aux);
+
+        return result;
     }
 }
