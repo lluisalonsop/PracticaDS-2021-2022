@@ -8,8 +8,15 @@ class Main {
     + main(args : String[])
 }
 
+class Json {
+    - route : String
+    - createFromJson(jsonObject : JSONObject)
+    + fromJson()
+    + saveJson(jsonObject : JSONObject)
+}
+
 Abstract Node{
-    - Name : string
+    - Name : String
     + Node(name : String)
     + getTime()
     + addNode(name : Node)
