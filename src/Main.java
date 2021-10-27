@@ -9,67 +9,13 @@ import java.util.List;
 
 public class Main {
 
-    private static Node createFromJson(JSONObject jsonObject) {
-
-        if (jsonObject.get("class").toString().equals("Project")) {
-            Project result = new Project(jsonObject.getString("Name"));
-            JSONArray jsonArray = jsonObject.getJSONArray("activities");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                result.addNode(createFromJson(jsonArray.getJSONObject(i)));
-            }
-            return result;
-        }
-
-        if (jsonObject.get("class").toString().equals("Task")) {
-
-            List<Interval> intervals = new ArrayList<Interval>();
-
-            JSONArray jsonArray = jsonObject.getJSONArray("activities");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject aux = jsonArray.getJSONObject(i);
-                intervals.add(new Interval(aux.getBoolean("Working"), aux.getString("InitialDate"),
-                        aux.getString("EndDate")));
-            }
-
-            Task result = new Task(jsonObject.getString("Name"), intervals);
-
-            return result;
-
-        }
-
-        return new Project("");
-    }
-
-    private static Node fromJson(String route) {
-        try {
-            Reader fileReader = new FileReader(route);
-            char[] destination = new char[102400];
-            fileReader.read(destination, 0, destination.length);
-
-            String object = new String(destination);
-
-            JSONObject jsonobj = new JSONObject(object);
-            Node root = createFromJson(jsonobj);
-            fileReader.close();
-            return root;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new Project("");
-    }
-
     public static void main(String[] args) {
 
         Timer.getInstance();
 
         System.out.println("Test Starts");
 
-        //---------------------------------------------
+        // ---Aqui deberia ir el import desde JSON-----
         Project Master = new Project("Master");
         Project Lists = new Project("Lists");
         Task transportation = new Task("transportation");
@@ -82,7 +28,9 @@ public class Main {
         Master.addNode(Lists);
         // -------------------------------------------
 
-        Node root = fromJson("./Data/Initial.json"); // imported from JSON
+        Json data = new Json("./Data/Initial.json");
+        Node root = data.fromJson(); // imported from JSON
+        data.saveJson(root.toJson()); //Save to JSON
 
         System.out.println("Transportation Starts");
         transportation.changeStatus(); // START
@@ -165,6 +113,8 @@ public class Main {
         // -------------------
 
         root.showTree(1); // no muestra el de la ejecuccion actual sino de la de guardadoo del JSON
+
+        System.out.println(Master.toJson());
     }
 
 }
