@@ -1,6 +1,12 @@
 import java.time.LocalDateTime;
 import java.util.Observable;
 import java.time.LocalTime;
+
+/*
+Timer is inizialized through getInstance() and is a singleton,
+when whis occurs the method run() is called in a thread and
+runs for the rest of the execution
+*/
 public class Timer extends Observable implements Runnable{
     private static Timer instance;
     private Timer(){

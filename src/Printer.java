@@ -1,5 +1,7 @@
 import java.time.LocalDateTime;
-
+/*
+* Printer is a runnable class thet is in charge of printing information about the tree
+* */
 public class Printer implements Runnable{
     private final Node rootPrj;
 

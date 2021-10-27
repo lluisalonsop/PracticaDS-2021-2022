@@ -2,7 +2,11 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import org.json.*;
-
+/*
+The class Node, collects all the functions from
+projects and Tasks, and implement the Composite
+Pattern
+*/
 public abstract class Node {
     protected String Name;
 

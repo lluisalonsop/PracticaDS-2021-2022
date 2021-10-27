@@ -2,6 +2,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import org.json.*;
+/*
+The class Project Initialize the new Project created with
+his name, then after a new children of this project appended to
+him we save it to the LinkedList of Node called children
+*/
 
 public class Project extends Node {
 
@@ -14,7 +19,7 @@ public class Project extends Node {
 
     @Override
 
-    public void addNode(Node aux) {// Arreglar
+    public void addNode(Node aux) {
         for (int i = 0; i < children.size(); i++) {
             if (children.get(i).getName() == aux.getName()) {
                 if (aux instanceof Project) {
