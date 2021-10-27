@@ -8,6 +8,7 @@ public class Timer extends Observable implements Runnable{
         Timerthread.start();
     }
     @Override
+    //METODE QUE EXECUTARA EL THREAD, SIMULANT EL CLOCK
     public void run() {
         while(true) {
             LocalDateTime CurrentDate = LocalDateTime.now();
