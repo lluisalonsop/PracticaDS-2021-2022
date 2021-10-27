@@ -1,19 +1,14 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
 import org.json.*;
-
-/*
-Task has a list of intervals, which are managed through changeStatus()
-There are also several methods which print information and calculate times
-*/
 
 public class Task extends Node {
     private List<Interval> intervals;
     public static final int SECONDSTOMINUTES = 60;
     public static final int MINUTESTOHOURS = 60;
     public static final int HOURSTODAYS = 24;
-
     public Task(String name) {
         super(name);
         intervals = new ArrayList<Interval>();
@@ -25,7 +20,7 @@ public class Task extends Node {
     }
 
     @Override
-    //returns time in seconds
+
     protected long calculateTime() {
         long sumatory = 0;
         for (int i = 0; i < intervals.size(); i++) {
@@ -33,8 +28,7 @@ public class Task extends Node {
         }
         return sumatory;
     }
-
-    // This method will Stop an Interval, or Create one therefore starting it.
+    // This method will Stop an Interval, or Create one.
     public void changeStatus() {
         if (intervals.size() != 0) {
             if (intervals.get(intervals.size() - 1).getStatus() == true) {
@@ -59,14 +53,10 @@ public class Task extends Node {
     }
 
     public void print() {
-        System.out.println("\nPRINTING : " + Name + "\n");
         for (int i = 0; i < intervals.size(); i++) {
-            System.out.println("Interval " + (i + 1) + ": ");
-            intervals.get(i).printInterval();
+            System.out.println("interval "+ i + ":                        " + intervals.get(i).getInitialDate() + "   " + intervals.get(i).getFinalDate() + "                                   "+ intervals.get(i).getIntervalTime() + " \n");
         }
-        long sumatory = calculateTime();
-        System.out.print("TOTAL TIME OF TASK " + Name + " : ");
-        converseTimeandPrint(sumatory);
+        System.out.println("activity :    " + Name + "       " + getInitialDate() + "    " + getFinalDate() +"                                  "+  getTime() + "\n");
     }
 
     public void showTree(int depth) {
@@ -100,5 +90,17 @@ public class Task extends Node {
         result.put("activities", aux);
 
         return result;
+    }
+    public LocalDateTime getInitialDate(){
+        if (intervals.size() == 0){
+            return null;
+        }
+        return intervals.get(0).getInitialDate();
+    }
+    public LocalDateTime getFinalDate(){
+        if (intervals.size() == 0){
+            return null;
+        }
+        return intervals.get(intervals.size()-1).getFinalDate();
     }
 }
