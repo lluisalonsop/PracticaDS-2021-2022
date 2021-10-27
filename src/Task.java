@@ -5,7 +5,9 @@ import org.json.*;
 
 public class Task extends Node {
     private List<Interval> intervals;
-
+    public static final int SECONDSTOMINUTES = 60;
+    public static final int MINUTESTOHOURS = 60;
+    public static final int HOURSTODAYS = 24;
     public Task(String name) {
         super(name);
         intervals = new ArrayList<Interval>();
@@ -25,7 +27,7 @@ public class Task extends Node {
         }
         return sumatory;
     }
-
+    // This method will Stop an Interval, or Create one.
     public void changeStatus() {
         if (intervals.size() != 0) {
             if (intervals.get(intervals.size() - 1).getStatus() == true) {
@@ -39,15 +41,14 @@ public class Task extends Node {
     }
 
     private void converseTimeandPrint(long sumatory) {
-        float seconds = sumatory % 60;
-        sumatory = (int) sumatory / 60;
-        float minutes = sumatory % 60;
-        sumatory = (int) sumatory / 60;
-        float hours = sumatory % 60;
-        sumatory = (int) sumatory / 60;
-        float days = sumatory % 24;
-        System.out
-                .print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : " + seconds + "\n");
+        float seconds = sumatory % SECONDSTOMINUTES;
+        sumatory = (int) sumatory / SECONDSTOMINUTES;
+        float minutes = sumatory % SECONDSTOMINUTES;
+        sumatory = (int) sumatory / SECONDSTOMINUTES;
+        float hours = sumatory % MINUTESTOHOURS;
+        sumatory = (int) sumatory / MINUTESTOHOURS;
+        float days = sumatory % HOURSTODAYS;
+        System.out.print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : " + seconds + "\n");
     }
 
     public void print() {
