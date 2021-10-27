@@ -8,6 +8,7 @@ public class Task extends Node {
     public static final int SECONDSTOMINUTES = 60;
     public static final int MINUTESTOHOURS = 60;
     public static final int HOURSTODAYS = 24;
+
     public Task(String name) {
         super(name);
         intervals = new ArrayList<Interval>();
@@ -19,7 +20,7 @@ public class Task extends Node {
     }
 
     @Override
-
+    //returns time in seconds
     protected long calculateTime() {
         long sumatory = 0;
         for (int i = 0; i < intervals.size(); i++) {
@@ -27,7 +28,8 @@ public class Task extends Node {
         }
         return sumatory;
     }
-    // This method will Stop an Interval, or Create one.
+
+    // This method will Stop an Interval, or Create one therefore starting it.
     public void changeStatus() {
         if (intervals.size() != 0) {
             if (intervals.get(intervals.size() - 1).getStatus() == true) {

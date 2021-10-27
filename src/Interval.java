@@ -44,22 +44,19 @@ class Interval implements Observer {
     public boolean getStatus() {
         return Working;
     }
-
     public long getIntervalTime() {
         return IntervalTime;
     }
-
     public LocalDateTime getInitialDate() {
         return InitialDate;
     }
-
     public LocalDateTime getFinalDate() {
         return EndDate;
     }
 
     private void calculateTime() {
         IntervalTime = InitialDate.until(EndDate, ChronoUnit.SECONDS); // Calculates the difference between the initial
-                                                                       // and en
+                                                                       // and end
     }
 
     public void printInterval() {

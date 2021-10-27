@@ -69,7 +69,7 @@ public class Main {
 
         System.out.println("Test Starts");
 
-        // ---Aqui deberia ir el import desde JSON-----
+        //---------------------------------------------
         Project Master = new Project("Master");
         Project Lists = new Project("Lists");
         Task transportation = new Task("transportation");
