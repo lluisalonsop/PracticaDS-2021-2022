@@ -2,61 +2,100 @@
 
 skinparam classAttributeIconSize 0
 
-class Client {
-    - Projects : Project[]
-    - main(args : String[])
+class Main {
+    - createFromJson(JSONObject)
+    - fromJson(String route)
+    + main(args : String[])
+}
+
+class Json {
+    - route : String
+    - createFromJson(jsonObject : JSONObject)
+    + fromJson()
+    + saveJson(jsonObject : JSONObject)
 }
 
 Abstract Node{
-    - Name : string
-    + getTime() : int
-    + addProject(Name)
-    +stopTask(Name)
-    + addTask(Task)
-    + isBottom()
-    + isTop()
+    - Name : String
+    + Node(name : String)
+    + getTime()
+    + addNode(name : Node)
+    + print()
+    + showTree(depth : int)
+    + getName()
+    + changeStatus()
+    + calculateTime()
+    + toJson()
 }
 
 class Project {
     - children : node[]
-    + addProject(Name)
-    + addTask(Name)
-    + stopTask(Name)
-    + getTime() : int
+    + Project(name : String)
+    + addNode(aux : Node)
+    + showTree(depht : int)
+    + getTime()
+    + toJson()
 }
 
 class Task {
-    - timer : TimerTask
-    + getTime() : int
+    - intervals : Interval[]
+    + Task(name : String) 
+    + Task(name : String, Intervals : Interval)
+    + calculateTime()
+    + changeStatus()
+    + converseTimeandPrint(sumatory : long)
+    + print()
+    + showTree(depth : int)
+    + getTime()
+    + toJson()
 }
 class Interval{
-    - OnWork : boolean
-    -InitialDate : date
-    -FinalDate : date
+    - Working : boolean
+    - InitialDate : LocalDateTime
+    - EndDate : LocalDateTime
+    - IntervalTime : long
+    + Interval()
+    + Interval(Working : boolean, InitialDate String, EndDate : String)
+    + update(obj : Observable, arg : Object)
+    + end()
+    + getStatus()
+    + getIntervalTime()
+    + getInitialDate()
+    + getFinalDate()
+    + calculateTime()
+    + printInterval()
+    + toJson()
 }
 
-Abstract Observable{
+Interface Observable{
     #notifyAll()
     +addObserver(IObserver)
     +removeObserver(IObserver)
 }
+
 class Timer{
-    #notifyAll()
-    +addObserver(IObserver)
-    +removeObserver(IObserver)
+    - instance : Timer
+    - Timer()
+    + run()
+    + getInstance()
 }
+
 class Printer{
     -rootPj : Node
     + run()
 }
+
 Interface (IObserver){
     +registerObserver()
     +unsubscribeObserver()
     +update()
 }
+
+Task *--> Interval
+Project *-up-> "1..*" Node
+
 Interval *--> Task
 Project *-up-> "1..*" Node
-Client -left-> "*" Project: Project
 Task -down-|> Node
 Project -up-|> Node
 Timer --|> Observable
