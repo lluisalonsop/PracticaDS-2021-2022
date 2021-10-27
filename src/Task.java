@@ -3,6 +3,11 @@ import java.util.List;
 import java.util.Observer;
 import org.json.*;
 
+/*
+Task has a list of intervals, which are managed through changeStatus()
+There are also several methods which print information and calculate times
+*/
+
 public class Task extends Node {
     private List<Interval> intervals;
     public static final int SECONDSTOMINUTES = 60;
