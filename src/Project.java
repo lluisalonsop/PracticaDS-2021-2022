@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import org.json.*;
 
+/*
+The class Project Initialize the new Project created with 
+his name, then after a new children of this project appended to 
+him we save it to the LinkedList of Node called children
+*/
+
 public class Project extends Node {
 
     protected LinkedList<Node> children = new LinkedList<Node>();
@@ -12,7 +18,7 @@ public class Project extends Node {
 
     @Override
 
-    public void addNode(Node aux) {// Arreglar
+    public void addNode(Node aux) { //We add a Node of type project to the children's list
         for (int i = 0; i < children.size(); i++) {
             if (children.get(i).getName() == aux.getName()) {
                 if (aux instanceof Project) {
@@ -27,7 +33,7 @@ public class Project extends Node {
         children.add(aux);
     }
 
-    public void showTree(int depth) {
+    public void showTree(int depth) { //This recursive functions show the Tree of all Projects and Tasks
         char aux = '+';
         if (depth % 2 == 0) {
             aux = '-';
