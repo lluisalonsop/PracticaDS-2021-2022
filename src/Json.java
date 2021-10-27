@@ -7,6 +7,13 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This class has three functionalities
+1.- Creates a tree from a json object
+2.- Opens up a file and returns a tree
+3.- Creates a new .JSON file from a string
+*/
+
 public class Json {
     private String route;
     
