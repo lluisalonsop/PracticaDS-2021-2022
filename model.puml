@@ -94,8 +94,6 @@ Interface (IObserver){
 Task *--> Interval
 Project *-up-> "1..*" Node
 
-Interval *--> Task
-Project *-up-> "1..*" Node
 Task -down-|> Node
 Project -up-|> Node
 Timer --|> Observable
