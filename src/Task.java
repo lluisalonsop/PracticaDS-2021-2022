@@ -1,85 +1,85 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
-import org.json.*;
-/*
-Task has a list of intervals, which are managed through changeStatus()
-There are also several methods which print information and calculate times
-*/
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class Task extends Node {
-    private List<Interval> intervals;
-    public static final int SECONDSTOMINUTES = 60;
-    public static final int MINUTESTOHOURS = 60;
-    public static final int HOURSTODAYS = 24;
-    public Task(String name) {
-        super(name);
-        intervals = new ArrayList<Interval>();
+  private final List<Interval> intervals;
+  public static final int SECONDSTOMINUTES = 60;
+  public static final int MINUTESTOHOURS = 60;
+  public static final int HOURSTODAYS = 24;
+
+  public Task(String name) {
+    super(name);
+    intervals = new ArrayList<Interval>();
+  }
+
+  public Task(String name, List<Interval> intervalsnew) {
+    super(name);
+    intervals = intervalsnew;
+  }
+
+
+  @Override
+  protected long calculateTime() {
+    long sumatory = 0;
+    for (Interval act : intervals) {
+      sumatory += act.getIntervalTime();
     }
+    return sumatory;
+  }
+  // This method will Stop an Interval, or Create one.
 
-    public Task(String name, List<Interval> Intervals) {
-        super(name);
-        intervals = Intervals;
+  public void changeStatus() {
+    if (intervals.size() != 0) {
+      if (intervals.get(intervals.size() - 1).getStatus()) {
+        intervals.get(intervals.size() - 1).end();
+      } else {
+        intervals.add(new Interval());
+      }
+    } else {
+      intervals.add(new Interval());
     }
+  }
 
-    @Override
+  private void converseTimeandPrint(long sumatory) {
+    final float seconds = sumatory % SECONDSTOMINUTES;
+    sumatory = (int) sumatory / SECONDSTOMINUTES;
+    float minutes = sumatory % SECONDSTOMINUTES;
+    sumatory = (int) sumatory / SECONDSTOMINUTES;
+    float hours = sumatory % MINUTESTOHOURS;
+    sumatory = (int) sumatory / MINUTESTOHOURS;
+    float days = sumatory % HOURSTODAYS;
+    System.out.print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : "
+        + seconds + "\n");
+  }
 
-    protected long calculateTime() {
-        long sumatory = 0;
-        for (int i = 0; i < intervals.size(); i++) {
-            sumatory += intervals.get(i).getIntervalTime();
-        }
-        return sumatory;
+  public void print() {
+    for (int i = 0; i < intervals.size(); i++) {
+      System.out.println("interval " + i + ":                        " + intervals.get(i).getInitialDate() + "   " + intervals.get(i).getFinalDate() + "                                   "+ intervals.get(i).getIntervalTime() + " \n");
     }
-    // This method will Stop an Interval, or Create one.
-    public void changeStatus() {
-        if (intervals.size() != 0) {
-            if (intervals.get(intervals.size() - 1).getStatus() == true) {
-                intervals.get(intervals.size() - 1).end();
-            } else {
-                intervals.add(new Interval());
-            }
-        } else {
-            intervals.add(new Interval());
-        }
+    System.out.println("activity :    " + Name + "       " + getInitialDate() + "    " + getFinalDate() + "                                  "
+            + getTime() + "\n");
+  }
+
+  public void showTree(int depth) {
+    char aux = '+';
+    if (depth % 2 == 0) {
+      aux = '-';
     }
-
-    private void converseTimeandPrint(long sumatory) {
-        float seconds = sumatory % SECONDSTOMINUTES;
-        sumatory = (int) sumatory / SECONDSTOMINUTES;
-        float minutes = sumatory % SECONDSTOMINUTES;
-        sumatory = (int) sumatory / SECONDSTOMINUTES;
-        float hours = sumatory % MINUTESTOHOURS;
-        sumatory = (int) sumatory / MINUTESTOHOURS;
-        float days = sumatory % HOURSTODAYS;
-        System.out.print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : " + seconds + "\n");
+    for (int a = 0; a < depth; a++) {
+      System.out.print(aux);
     }
+    System.out.print(Name + ", " + calculateTime() + "\n");
 
-    public void print() {
-        for (int i = 0; i < intervals.size(); i++) {
-            System.out.println("interval "+ i + ":                        " + intervals.get(i).getInitialDate() + "   " + intervals.get(i).getFinalDate() + "                                   "+ intervals.get(i).getIntervalTime() + " \n");
-        }
-        System.out.println("activity :    " + Name + "       " + getInitialDate() + "    " + getFinalDate() +"                                  "+  getTime() + "\n");
-    }
+  }
 
-    public void showTree(int depth) {
-        char aux = '+';
-        if (depth % 2 == 0) {
-            aux = '-';
-        }
-        for (int a = 0; a < depth; a++) {
-            System.out.print(aux);
-        }
+  public long getTime() {
+    return calculateTime();
+  }
 
-        System.out.print(Name + ", " + calculateTime() + "\n");
-
-    }
-
-    public long getTime() {
-        return calculateTime();
-    }
-
-    public JSONObject toJson() {
+  public JSONObject toJson() {
         JSONObject result = new JSONObject();
         result.put("Name", Name);
         result.put("class", "Task");
