@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.ConsoleHandler;
+import java.util.LinkedList;
 
 public class Main {
 
@@ -95,17 +96,24 @@ public class Main {
         // Cambiar system.outs a logger.log
 
         // ---Aqui deberia ir el import desde JSON-----
+        LinkedList<String> tags = new LinkedList<String>();
+        tags.add("Software");
+        tags.add("Hardware");
+
         Project Master = new Project("Master");
         Project Lists = new Project("Lists");
         Task transportation = new Task("transportation");
         Task firstList = new Task("first list");
-        Task secondList = new Task("second list");
+        Task secondList = new Task("second list", tags);
 
         Lists.addNode(firstList);
         Lists.addNode(secondList);
         Master.addNode(transportation);
         Master.addNode(Lists);
         // -------------------------------------------
+
+        SearchByTagVisitor v = new SearchByTagVisitor("Software");
+        LinkedList<Node> result = Master.accept(v);
 
         Node root = fromJson("./Data/Initial.json"); // imported from JSON
         new Printer(Master);

@@ -16,7 +16,10 @@ public class Project extends Node {
 
     public Project(String name) {
         super(name);
-        LOGGER.log(Level.INFO, "Project Created");
+    }
+
+    public Project(String name, LinkedList<String> tags) {
+        super(name, tags);
     }
 
     @Override
@@ -130,5 +133,22 @@ public class Project extends Node {
         long time = getTime();
         System.out.println("activity :    " + getName() + "                " + getInitialDate() + "      "
                 + getFinalDate() + "                               " + time);
+    }
+
+    public LinkedList<Node> accept(Visitor v) {
+        LinkedList<Node> result = new LinkedList<Node>();
+
+        for (int i = 0; i < children.size(); i++) {
+            LinkedList<Node> aux = children.get(i).accept(v);
+            if (!aux.isEmpty()) {
+                result.addAll(aux);
+            }
+        }
+
+        Node aux = v.visitNode(this);
+        if (aux.Name != "null") {
+            result.add(aux);
+        }
+        return result;
     }
 }

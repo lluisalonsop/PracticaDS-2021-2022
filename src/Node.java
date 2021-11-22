@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import org.json.*;
+import java.util.LinkedList;
 
 import java.util.logging.Logger;
 
@@ -11,9 +12,15 @@ Pattern
 public abstract class Node {
     protected String Name;
     protected final static Logger LOGGER = Logger.getLogger("time_tracker");
+    protected LinkedList<String> tags = new LinkedList<String>();
 
     public Node(String name) {
         this.Name = name;
+    }
+
+    public Node(String name, LinkedList<String> tags) {
+        this.Name = name;
+        this.tags = tags;
     }
 
     public long getTime() {
@@ -58,6 +65,10 @@ public abstract class Node {
 
     public JSONObject toJson() {
         return new JSONObject();
+    }
+
+    public LinkedList<Node> accept(Visitor v) {
+        return new LinkedList<Node>();
     }
 
 }

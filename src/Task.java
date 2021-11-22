@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.util.LinkedList;
 
 import java.util.logging.Level;
 
@@ -14,6 +15,11 @@ public class Task extends Node {
 
   public Task(String name) {
     super(name);
+    intervals = new ArrayList<Interval>();
+  }
+
+  public Task(String name, LinkedList<String> tags) {
+    super(name, tags);
     intervals = new ArrayList<Interval>();
   }
 
@@ -109,5 +115,15 @@ public class Task extends Node {
       return null;
     }
     return intervals.get(intervals.size() - 1).getFinalDate();
+  }
+
+  public LinkedList<Node> accept(Visitor v) {
+    LinkedList<Node> result = new LinkedList<Node>();
+
+    Node aux = v.visitNode(this);
+    if (aux.Name != "null") {
+      result.add(aux);
+    }
+    return result;
   }
 }

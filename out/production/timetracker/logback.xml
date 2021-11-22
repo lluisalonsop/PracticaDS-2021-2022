@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-22T20:03:50.595339900Z</date>
-  <millis>1637611430595</millis>
-  <nanos>339900</nanos>
+  <date>2021-11-22T21:01:03.357721Z</date>
+  <millis>1637614863357</millis>
+  <nanos>721000</nanos>
   <sequence>0</sequence>
   <logger>time_tracker</logger>
   <level>INFO</level>
@@ -13,52 +13,3 @@
   <thread>1</thread>
   <message>Logger initialized</message>
 </record>
-<record>
-  <date>2021-11-22T20:03:50.639339900Z</date>
-  <millis>1637611430639</millis>
-  <nanos>339900</nanos>
-  <sequence>1</sequence>
-  <logger>time_tracker</logger>
-  <level>INFO</level>
-  <class>Project</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>Project Created</message>
-</record>
-<record>
-  <date>2021-11-22T20:03:50.641339500Z</date>
-  <millis>1637611430641</millis>
-  <nanos>339500</nanos>
-  <sequence>2</sequence>
-  <logger>time_tracker</logger>
-  <level>INFO</level>
-  <class>Project</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>Project Created</message>
-</record>
-<record>
-  <date>2021-11-22T20:03:50.649340800Z</date>
-  <millis>1637611430649</millis>
-  <nanos>340800</nanos>
-  <sequence>3</sequence>
-  <logger>time_tracker</logger>
-  <level>INFO</level>
-  <class>Project</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>Project Created</message>
-</record>
-<record>
-  <date>2021-11-22T20:03:50.654338400Z</date>
-  <millis>1637611430654</millis>
-  <nanos>338400</nanos>
-  <sequence>4</sequence>
-  <logger>time_tracker</logger>
-  <level>INFO</level>
-  <class>Project</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>Project Created</message>
-</record>
-</log>
