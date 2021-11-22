@@ -92,6 +92,8 @@ public class Main {
 
         Timer.getInstance();
 
+        // Cambiar system.outs a logger.log
+
         // ---Aqui deberia ir el import desde JSON-----
         Project Master = new Project("Master");
         Project Lists = new Project("Lists");

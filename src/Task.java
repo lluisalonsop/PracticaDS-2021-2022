@@ -4,6 +4,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.logging.Level;
+
 public class Task extends Node {
   private final List<Interval> intervals;
   public static final int SECONDSTOMINUTES = 60;
@@ -19,7 +21,6 @@ public class Task extends Node {
     super(name);
     intervals = intervalsnew;
   }
-
 
   @Override
   protected long calculateTime() {
@@ -51,16 +52,17 @@ public class Task extends Node {
     float hours = sumatory % MINUTESTOHOURS;
     sumatory = (int) sumatory / MINUTESTOHOURS;
     float days = sumatory % HOURSTODAYS;
-    System.out.print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : "
-        + seconds + "\n");
+    System.out.print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : " + seconds + "\n");
   }
 
   public void print() {
     for (int i = 0; i < intervals.size(); i++) {
-      System.out.println("interval " + i + ":                        " + intervals.get(i).getInitialDate() + "   " + intervals.get(i).getFinalDate() + "                                   "+ intervals.get(i).getIntervalTime() + " \n");
+      System.out.println("interval " + i + ":                        " + intervals.get(i).getInitialDate() + "   "
+          + intervals.get(i).getFinalDate() + "                                   " + intervals.get(i).getIntervalTime()
+          + " \n");
     }
-    System.out.println("activity :    " + Name + "       " + getInitialDate() + "    " + getFinalDate() + "                                  "
-            + getTime() + "\n");
+    System.out.println("activity :    " + Name + "       " + getInitialDate() + "    " + getFinalDate()
+        + "                                  " + getTime() + "\n");
   }
 
   public void showTree(int depth) {
@@ -80,30 +82,32 @@ public class Task extends Node {
   }
 
   public JSONObject toJson() {
-        JSONObject result = new JSONObject();
-        result.put("Name", Name);
-        result.put("class", "Task");
+    JSONObject result = new JSONObject();
+    result.put("Name", Name);
+    result.put("class", "Task");
 
-        JSONArray aux = new JSONArray();
+    JSONArray aux = new JSONArray();
 
-        for (int i = 0; i < intervals.size(); i++) {
-            aux.put(intervals.get(i).toJson());
-        }
-
-        result.put("activities", aux);
-
-        return result;
+    for (int i = 0; i < intervals.size(); i++) {
+      aux.put(intervals.get(i).toJson());
     }
-    public LocalDateTime getInitialDate(){
-        if (intervals.size() == 0){
-            return null;
-        }
-        return intervals.get(0).getInitialDate();
+
+    result.put("activities", aux);
+
+    return result;
+  }
+
+  public LocalDateTime getInitialDate() {
+    if (intervals.size() == 0) {
+      return null;
     }
-    public LocalDateTime getFinalDate(){
-        if (intervals.size() == 0){
-            return null;
-        }
-        return intervals.get(intervals.size()-1).getFinalDate();
+    return intervals.get(0).getInitialDate();
+  }
+
+  public LocalDateTime getFinalDate() {
+    if (intervals.size() == 0) {
+      return null;
     }
+    return intervals.get(intervals.size() - 1).getFinalDate();
+  }
 }

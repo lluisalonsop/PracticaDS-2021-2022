@@ -2,6 +2,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import org.json.*;
+
+import java.util.logging.Level;
 /*
 The class Project Initialize the new Project created with
 his name, then after a new children of this project appended to
@@ -13,8 +15,8 @@ public class Project extends Node {
     protected LinkedList<Node> children = new LinkedList<Node>();
 
     public Project(String name) {
-
         super(name);
+        LOGGER.log(Level.INFO, "Project Created");
     }
 
     @Override
@@ -49,48 +51,49 @@ public class Project extends Node {
             children.get(i).showTree(depth + 1);
         }
     }
-    public LocalDateTime getInitialDate(){
-        ArrayList <LocalDateTime > datesTimes = new ArrayList<LocalDateTime>();
-        for (int i = 0 ; i < children.size(); i++){
-            if (children.get(i).getInitialDate() != null ){
+
+    public LocalDateTime getInitialDate() {
+        ArrayList<LocalDateTime> datesTimes = new ArrayList<LocalDateTime>();
+        for (int i = 0; i < children.size(); i++) {
+            if (children.get(i).getInitialDate() != null) {
                 datesTimes.add(children.get(i).getInitialDate());
             }
         }
-        if (datesTimes.size() == 0){
+        if (datesTimes.size() == 0) {
             return null;
-        }
-        else{
+        } else {
             LocalDateTime answer = datesTimes.get(0);
-            for (int i = 1; i < datesTimes.size();i++){
+            for (int i = 1; i < datesTimes.size(); i++) {
                 int rest = answer.compareTo(datesTimes.get(i));
-                if (rest > 0){
+                if (rest > 0) {
                     answer = datesTimes.get(i);
                 }
             }
             return answer;
         }
     }
-    public LocalDateTime getFinalDate(){
-        ArrayList <LocalDateTime > datesTimes = new ArrayList<LocalDateTime>();
-        for (int i = 0 ; i < children.size(); i++){
-            if (children.get(i).getFinalDate() != null ){
+
+    public LocalDateTime getFinalDate() {
+        ArrayList<LocalDateTime> datesTimes = new ArrayList<LocalDateTime>();
+        for (int i = 0; i < children.size(); i++) {
+            if (children.get(i).getFinalDate() != null) {
                 datesTimes.add(children.get(i).getFinalDate());
             }
         }
-        if (datesTimes.size() == 0){
+        if (datesTimes.size() == 0) {
             return null;
-        }
-        else{
-            LocalDateTime  answer = datesTimes.get(0);
-            for (int i = 1; i < datesTimes.size();i++){
+        } else {
+            LocalDateTime answer = datesTimes.get(0);
+            for (int i = 1; i < datesTimes.size(); i++) {
                 int rest = answer.compareTo(datesTimes.get(i));
-                if (rest > 0){
+                if (rest > 0) {
                     answer = datesTimes.get(i);
                 }
             }
             return answer;
         }
     }
+
     public long getTime() {
         int tiempo = 0;
 
@@ -115,14 +118,17 @@ public class Project extends Node {
 
         return result;
     }
-    public void printALLDOWN(){
-        for (int i = 0; i < children.size(); i++){
+
+    public void printALLDOWN() {
+        for (int i = 0; i < children.size(); i++) {
             children.get(i).print();
         }
         print();
     }
-    public void print(){
-            long time = getTime();
-            System.out.println("activity :    " + getName() +"                "+ getInitialDate() + "      " + getFinalDate() + "                               " + time);
+
+    public void print() {
+        long time = getTime();
+        System.out.println("activity :    " + getName() + "                " + getInitialDate() + "      "
+                + getFinalDate() + "                               " + time);
     }
 }

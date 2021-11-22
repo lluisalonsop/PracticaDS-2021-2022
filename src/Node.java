@@ -1,7 +1,8 @@
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
 import org.json.*;
+
+import java.util.logging.Logger;
+
 /*
 The class Node, collects all the functions from
 projects and Tasks, and implement the Composite
@@ -9,6 +10,7 @@ Pattern
 */
 public abstract class Node {
     protected String Name;
+    protected final static Logger LOGGER = Logger.getLogger("time_tracker");
 
     public Node(String name) {
         this.Name = name;
@@ -24,20 +26,24 @@ public abstract class Node {
 
     public void print() {
     }
-    public void printALLDOWN(){
+
+    public void printALLDOWN() {
 
     }
 
     public void showTree(int depth) {
     }
-    protected LocalDateTime getInitialDate(){
+
+    protected LocalDateTime getInitialDate() {
         LocalDateTime result = LocalDateTime.now();
         return result;
     }
-    protected LocalDateTime getFinalDate(){
+
+    protected LocalDateTime getFinalDate() {
         LocalDateTime result = LocalDateTime.now();
         return result;
     }
+
     public String getName() {
         return this.Name;
     }
