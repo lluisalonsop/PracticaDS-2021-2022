@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-22T21:01:03.357721Z</date>
-  <millis>1637614863357</millis>
-  <nanos>721000</nanos>
+  <date>2021-11-22T21:09:38.427097500Z</date>
+  <millis>1637615378427</millis>
+  <nanos>97500</nanos>
   <sequence>0</sequence>
   <logger>time_tracker</logger>
   <level>INFO</level>
@@ -13,3 +13,16 @@
   <thread>1</thread>
   <message>Logger initialized</message>
 </record>
+<record>
+  <date>2021-11-22T21:09:38.470100700Z</date>
+  <millis>1637615378470</millis>
+  <nanos>100700</nanos>
+  <sequence>1</sequence>
+  <logger>time_tracker</logger>
+  <level>INFO</level>
+  <class>Main</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Search by tag is working!</message>
+</record>
+</log>

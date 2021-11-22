@@ -115,6 +115,10 @@ public class Main {
         SearchByTagVisitor v = new SearchByTagVisitor("Software");
         LinkedList<Node> result = Master.accept(v);
 
+        if (result.getLast().Name == secondList.Name) {
+            LOGGER.log(Level.INFO, "Search by tag is working!");
+        }
+
         Node root = fromJson("./Data/Initial.json"); // imported from JSON
         new Printer(Master);
         System.out.println("start test");
