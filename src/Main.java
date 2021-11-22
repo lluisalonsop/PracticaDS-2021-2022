@@ -8,7 +8,30 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.ConsoleHandler;
+
 public class Main {
+
+    private final static Logger LOGGER = Logger.getLogger("time_tracker");
+
+    private static void initHandlers() {
+        try {
+            Handler fileHandler = new FileHandler("./out/production/timetracker/logback.xml", false);
+            fileHandler.setLevel(Level.ALL);
+            Handler consoleHandler = new ConsoleHandler();
+            consoleHandler.setLevel(Level.ALL);
+            LOGGER.addHandler(fileHandler);
+            LOGGER.addHandler(consoleHandler);
+            LOGGER.log(Level.INFO, "Logger initialized");
+
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error initializing Logger");
+        }
+    }
 
     private static Node createFromJson(JSONObject jsonObject) {
 
@@ -56,18 +79,18 @@ public class Main {
             return root;
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error JSON file not found");
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error translating data to JSON");
         }
 
         return new Project("");
     }
 
     public static void main(String[] args) {
+        initHandlers();
 
         Timer.getInstance();
-
 
         // ---Aqui deberia ir el import desde JSON-----
         Project Master = new Project("Master");
@@ -156,13 +179,13 @@ public class Main {
         }
 
         System.out.println("Transportation Stops");
-        //transportation.changeStatus(); // STOP
+        // transportation.changeStatus(); // STOP
 
         // ------PRINTS------
         // Deberia ser un print desde el root que es importado del JSON
-        //transportation.print();
-        //firstList.print();
-        //secondList.print();
+        // transportation.print();
+        // firstList.print();
+        // secondList.print();
         // -------------------
 
         root.showTree(1); // no muestra el de la ejecuccion actual sino de la de guardadoo del JSON
