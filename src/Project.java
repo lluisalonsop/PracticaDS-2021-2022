@@ -25,6 +25,7 @@ public class Project extends Node {
    */
   @Override
   public void addNode(Node aux) {
+    assert (aux.getName() == "") : String.format("El nombre no puede estar vacio");
     for (Node child : children) {
       if (Objects.equals(child.getName(), aux.getName())) {
         if (aux instanceof Project) {
@@ -38,7 +39,10 @@ public class Project extends Node {
     children.add(aux);
   }
 
+  @Override
+
   public void showTree(int depth) {
+    assert (depth < 1) : String.format("Depth tiene que ser mas grande o igual a 1");
     char aux = '+';
     if (depth % 2 == 0) {
       aux = '-';
@@ -117,14 +121,6 @@ public class Project extends Node {
     result.put("activities", aux);
 
     return result;
-  }
-
-  @Override
-  public void printAllDown() {
-    for (Node child : children) {
-      child.printAllDown();
-    }
-    print();
   }
 
   public void print() {

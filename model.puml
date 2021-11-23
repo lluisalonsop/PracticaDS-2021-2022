@@ -3,8 +3,10 @@
 skinparam classAttributeIconSize 0
 
 class Main {
-    - createFromJson(JSONObject)
-    - fromJson(String route)
+    - LOGGER_F1 : Logger 
+    - LOGGER_F2 : Logger
+    + initHandlers_F1()
+    + initHandlers_F2()
     + main(args : String[])
 }
 
@@ -17,7 +19,11 @@ class Json {
 
 Abstract Node{
     - Name : String
+    - LOGGER_F1 : Logger 
+    - LOGGER_F2 : Logger
+    - tags : LinkedList<String>
     + Node(name : String)
+    + Node(name : String, tagsToSet : LinkedList<String>)
     + getTime()
     + addNode(name : Node)
     + print()
@@ -26,6 +32,7 @@ Abstract Node{
     + changeStatus()
     + calculateTime()
     + toJson()
+    + accept(v : Visitor)
 }
 
 class Project {
@@ -33,21 +40,28 @@ class Project {
     + Project(name : String)
     + addNode(aux : Node)
     + showTree(depht : int)
+    + getInitialDate()
+    + getFinalDate()
     + getTime()
     + toJson()
+    + print()
+    + accept(v : Visitor)
 }
 
 class Task {
     - intervals : Interval[]
     + Task(name : String) 
+    + Task(name : String, tags : LinkedList<String>)
     + Task(name : String, Intervals : Interval)
     + calculateTime()
     + changeStatus()
-    + converseTimeandPrint(sumatory : long)
     + print()
     + showTree(depth : int)
     + getTime()
     + toJson()
+    + getInitialDate()
+    + getFinalDate()
+    + accept(v : Visitor)
 }
 class Interval{
     - Working : boolean
@@ -63,7 +77,6 @@ class Interval{
     + getInitialDate()
     + getFinalDate()
     + calculateTime()
-    + printInterval()
     + toJson()
 }
 
@@ -76,13 +89,24 @@ Interface Observable{
 class Timer{
     - instance : Timer
     - Timer()
-    + run()
+    + schedule()
     + getInstance()
 }
 
-class Printer{
-    -rootPj : Node
-    + run()
+interface Visitor{
+    + visitNode(p : Node)
+}
+
+class SearchByTagVisitor{
+    - tag : String
+    + SearchByTagVisitor()
+    + visitNode()
+}
+
+class PrinterVisitor{
+    + PrinterVisitor()
+    + schedule()
+    + visitNode()
 }
 
 Interface (IObserver){
@@ -96,7 +120,13 @@ Project *-up-> "1..*" Node
 
 Task -down-|> Node
 Project -up-|> Node
-Timer --|> Observable
+Visitor -down-> Node
+SearchByTagVisitor "Implements" ..|> Visitor
+PrinterVisitor "Implements" ..|> Visitor
+Timer -down-|> Observable
 Interval "Extends" ..|> IObserver
-Printer -> Node
+
+Main -[hidden]down-> Timer
+Observable -[hidden]down-> Json
+
 @enduml

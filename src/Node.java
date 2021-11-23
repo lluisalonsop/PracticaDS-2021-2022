@@ -17,10 +17,12 @@ public abstract class Node {
   protected LinkedList<String> tags = new LinkedList<>();
 
   public Node(String nameToSet) {
+    assert (nameToSet == "") : String.format("El nombre no puede estar vacio");
     this.name = nameToSet;
   }
 
   public Node(String nameToSet, LinkedList<String> tagsToSet) {
+    assert (nameToSet == "") : String.format("El nombre no puede estar vacio");
     this.name = nameToSet;
     this.tags = tagsToSet;
   }
@@ -30,14 +32,10 @@ public abstract class Node {
   }
 
   public void addNode(Node name) {
-    LOGGER_F1.log(Level.WARNING, "This is a Task, not a Project!");
+    assert (name.getName() == "") : String.format("This is a Task, not a Project!");
   }
 
   public void print() {
-  }
-
-  public void printAllDown() {
-
   }
 
   public void showTree(int depth) {
@@ -60,6 +58,7 @@ public abstract class Node {
   }
 
   protected long calculateTime() {
+    LOGGER_F1.log(Level.WARNING, "This is a Project, not a Task!");
     return 0;
   }
 

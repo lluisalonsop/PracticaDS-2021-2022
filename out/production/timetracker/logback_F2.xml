@@ -2,9 +2,9 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-11-23T18:34:23.675222500Z</date>
-  <millis>1637692463675</millis>
-  <nanos>222500</nanos>
+  <date>2021-11-23T18:40:17.804088400Z</date>
+  <millis>1637692817804</millis>
+  <nanos>88400</nanos>
   <sequence>1</sequence>
   <logger>LOGGER_F2</logger>
   <level>INFO</level>
@@ -14,9 +14,9 @@
   <message>Logger initialized</message>
 </record>
 <record>
-  <date>2021-11-23T18:34:23.683223200Z</date>
-  <millis>1637692463683</millis>
-  <nanos>223200</nanos>
+  <date>2021-11-23T18:40:17.812103500Z</date>
+  <millis>1637692817812</millis>
+  <nanos>103500</nanos>
   <sequence>2</sequence>
   <logger>LOGGER_F2</logger>
   <level>INFO</level>

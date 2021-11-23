@@ -15,7 +15,7 @@ public class Main {
 
   private static void initHandlers_F1() {
     try {
-      Handler fileHandler = new FileHandler("./out/production/timetracker/logback.xml", false);
+      Handler fileHandler = new FileHandler("./out/production/timetracker/logback_F1.xml", false);
       fileHandler.setLevel(Level.ALL);
       Handler consoleHandler = new ConsoleHandler();
       consoleHandler.setLevel(Level.ALL);
@@ -30,7 +30,7 @@ public class Main {
 
   private static void initHandlers_F2() {
     try {
-      Handler fileHandler = new FileHandler("./out/production/timetracker/logback.xml", false);
+      Handler fileHandler = new FileHandler("./out/production/timetracker/logback_F2.xml", false);
       fileHandler.setLevel(Level.ALL);
       Handler consoleHandler = new ConsoleHandler();
       consoleHandler.setLevel(Level.ALL);

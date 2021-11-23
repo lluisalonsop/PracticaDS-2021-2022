@@ -4,7 +4,6 @@ public class SearchByTagVisitor implements Visitor {
   private final String tag;
 
   public SearchByTagVisitor(String tagToSet) {
-    super();
     this.tag = tagToSet;
   }
 
