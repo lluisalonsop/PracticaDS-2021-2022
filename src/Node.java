@@ -1,74 +1,71 @@
 import java.time.LocalDateTime;
-import org.json.*;
 import java.util.LinkedList;
-
 import java.util.logging.Logger;
+import org.json.JSONObject;
 
 /*
 The class Node, collects all the functions from
 projects and Tasks, and implement the Composite
 Pattern
 */
+
 public abstract class Node {
-    protected String Name;
-    protected final static Logger LOGGER = Logger.getLogger("time_tracker");
-    protected LinkedList<String> tags = new LinkedList<String>();
+  protected String name;
+  protected static final  Logger LOGGER = Logger.getLogger("time_tracker");
+  protected LinkedList<String> tags = new LinkedList<>();
 
-    public Node(String name) {
-        this.Name = name;
-    }
+  public Node(String nameToSet) {
+    this.name = nameToSet;
+  }
 
-    public Node(String name, LinkedList<String> tags) {
-        this.Name = name;
-        this.tags = tags;
-    }
+  public Node(String nameToSet, LinkedList<String> tagsToSet) {
+    this.name = nameToSet;
+    this.tags = tagsToSet;
+  }
 
-    public long getTime() {
-        return 0;
-    }
+  public long getTime() {
+    return 0;
+  }
 
-    public void addNode(Node name) {
-        System.out.print("This is a Task, not a Project!");
-    }
+  public void addNode(Node name) {
+    System.out.print("This is a Task, not a Project!");
+  }
 
-    public void print() {
-    }
+  public void print() {
+  }
 
-    public void printALLDOWN() {
+  public void printAllDown() {
 
-    }
+  }
 
-    public void showTree(int depth) {
-    }
+  public void showTree(int depth) {
+  }
 
-    protected LocalDateTime getInitialDate() {
-        LocalDateTime result = LocalDateTime.now();
-        return result;
-    }
+  protected LocalDateTime getInitialDate() {
+    return LocalDateTime.now();
+  }
 
-    protected LocalDateTime getFinalDate() {
-        LocalDateTime result = LocalDateTime.now();
-        return result;
-    }
+  protected LocalDateTime getFinalDate() {
+    return LocalDateTime.now();
+  }
 
-    public String getName() {
-        return this.Name;
-    }
+  public String getName() {
+    return this.name;
+  }
 
-    public void changeStatus() {
-        System.out.print("This is a Project, not a Task!");
-    }
+  public void changeStatus() {
+    System.out.print("This is a Project, not a Task!");
+  }
 
-    protected long calculateTime() {
-        return 0;
-    }
+  protected long calculateTime() {
+    return 0;
+  }
 
-    public JSONObject toJson() {
-        return new JSONObject();
-    }
+  public JSONObject toJson() {
+    return new JSONObject();
+  }
 
-    public LinkedList<Node> accept(Visitor v) {
-        return new LinkedList<Node>();
-    }
-
+  public LinkedList<Node> accept(Visitor v) {
+    return new LinkedList<>();
+  }
 }
