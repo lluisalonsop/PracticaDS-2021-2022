@@ -4,13 +4,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Timer extends Observable  {
+public class Timer extends Observable {
   private static Timer instance;
 
   private Timer() {
     schedule();
   }
-
 
   private void schedule() {
     ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

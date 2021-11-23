@@ -2,6 +2,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 import org.json.JSONObject;
+import java.util.logging.Level;
 
 /*
 The class Node, collects all the functions from
@@ -29,7 +30,7 @@ public abstract class Node {
   }
 
   public void addNode(Node name) {
-    System.out.print("This is a Task, not a Project!");
+    LOGGER_F1.log(Level.WARNING, "This is a Task, not a Project!");
   }
 
   public void print() {
@@ -55,7 +56,7 @@ public abstract class Node {
   }
 
   public void changeStatus() {
-    System.out.print("This is a Project, not a Task!");
+    LOGGER_F1.log(Level.WARNING, "This is a Project, not a Task!");
   }
 
   protected long calculateTime() {

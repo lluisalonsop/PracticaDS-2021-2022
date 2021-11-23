@@ -1,84 +1,51 @@
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Objects;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class Main {
-  private static final Logger LOGGER = Logger.getLogger("time_tracker");
+  private static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
+  private static final Logger LOGGER_F2 = Logger.getLogger("LOGGER_F2");
 
-  private static void initHandlers() {
+  private static void initHandlers_F1() {
     try {
       Handler fileHandler = new FileHandler("./out/production/timetracker/logback.xml", false);
       fileHandler.setLevel(Level.ALL);
       Handler consoleHandler = new ConsoleHandler();
       consoleHandler.setLevel(Level.ALL);
-      LOGGER.addHandler(fileHandler);
-      LOGGER.addHandler(consoleHandler);
-      LOGGER.log(Level.INFO, "Logger initialized");
+      LOGGER_F1.addHandler(fileHandler);
+      LOGGER_F1.addHandler(consoleHandler);
+      LOGGER_F1.log(Level.INFO, "Logger initialized");
 
     } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Error initializing Logger");
+      LOGGER_F1.log(Level.SEVERE, "Error initializing Logger");
     }
   }
 
-  private static Node createFromJson(JSONObject jsonObject) {
-    if (jsonObject.get("class").toString().equals("Project")) {
-      Project result = new Project(jsonObject.getString("Name"));
-      JSONArray jsonArray = jsonObject.getJSONArray("activities");
-      for (int i = 0; i < jsonArray.length(); i++) {
-        result.addNode(createFromJson(jsonArray.getJSONObject(i)));
-      }
-      return result;
-    }
-    if (jsonObject.get("class").toString().equals("Task")) {
-      List<Interval> intervals = new ArrayList<>();
-      JSONArray jsonArray = jsonObject.getJSONArray("activities");
-      for (int i = 0; i < jsonArray.length(); i++) {
-        JSONObject aux = jsonArray.getJSONObject(i);
-        intervals.add(new Interval(aux.getBoolean("Working"), aux.getString("InitialDate"),
-                        aux.getString("EndDate")));
-      }
-      return new Task(jsonObject.getString("Name"), intervals);
-    }
-    return new Project("");
-  }
-
-  private static Node fromJson() {
+  private static void initHandlers_F2() {
     try {
-      Reader fileReader = new FileReader("./Data/Initial.json");
-      char[] destination = new char[102400];
-      int val = fileReader.read(destination, 0, destination.length);
-      if (val == -1) {
-        //COMPTE AMB AIXÓ SI CAMBIA
-        return new Project("null");
-      }
-      String object = new String(destination);
-      JSONObject jsonobj = new JSONObject(object);
-      Node root = createFromJson(jsonobj);
-      fileReader.close();
-      return root;
-    } catch (FileNotFoundException e) {
-      LOGGER.log(Level.SEVERE, "Error JSON file not found");
-    } catch (IOException e) {
-      LOGGER.log(Level.SEVERE, "Error translating data to JSON");
-    }
+      Handler fileHandler = new FileHandler("./out/production/timetracker/logback.xml", false);
+      fileHandler.setLevel(Level.ALL);
+      Handler consoleHandler = new ConsoleHandler();
+      consoleHandler.setLevel(Level.ALL);
+      LOGGER_F2.addHandler(fileHandler);
+      LOGGER_F2.addHandler(consoleHandler);
+      LOGGER_F2.log(Level.INFO, "Logger initialized");
 
-    return new Project("");
+    } catch (IOException e) {
+      LOGGER_F2.log(Level.SEVERE, "Error initializing Logger");
+    }
   }
 
   public static void main(String[] args) {
-    initHandlers();
+    initHandlers_F1();
+    initHandlers_F2();
     Timer.getInstance();
     // Cambiar system.outs a logger.log
     // ---Aqui deberia ir el import desde JSON-----
@@ -101,80 +68,86 @@ public class Main {
     SearchByTagVisitor v = new SearchByTagVisitor("Software");
     LinkedList<Node> result = master.accept(v);
 
+    new PrinterVisitor(master);
+
     if (Objects.equals(result.getLast().name, secondList.name)) {
-      LOGGER.log(Level.INFO, "Search by tag is working!");
+      LOGGER_F2.log(Level.INFO, "Search by tag is working!");
+    } else {
+      LOGGER_F2.log(Level.WARNING, "Search by tag isn't working!");
     }
 
-    final Node root = fromJson(); // imported from JSON
-    new Printer(master);
-    System.out.println("start test");
-    System.out.println("Transportation Starts");
+    Json data = new Json("./Data/Initial.json");
+    Node root = data.fromJson(); // imported from JSON
+
+    LOGGER_F1.log(Level.INFO, "Start Test");
+    LOGGER_F1.log(Level.INFO, "Transportation Starts");
     transportation.changeStatus(); // START
     // 4 Second Sleep
     try {
       Thread.sleep(4000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "4 second sleep suffered an interruption");
     }
 
-    System.out.println("Transportation Stops");
+    LOGGER_F1.log(Level.INFO, "Transportation Stops");
     transportation.changeStatus(); // STOP
     // 2 Second Sleep
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "2 second sleep suffered an interruption");
     }
 
-    System.out.println("First List Starts");
+    LOGGER_F1.log(Level.INFO, "First List Start");
     firstList.changeStatus(); // START
     // 6 Second Sleep
     try {
       Thread.sleep(6000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "6 second sleep suffered an interruption");
     }
 
-    System.out.println("Second List Starts");
+    LOGGER_F1.log(Level.INFO, "Second List Starts");
     secondList.changeStatus(); // START
     // 4 Second Sleep
     try {
       Thread.sleep(4000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "4 second sleep suffered an interruption");
     }
 
-    System.out.println("First list Stops");
+    LOGGER_F1.log(Level.INFO, "First List Stops");
     firstList.changeStatus(); // STOP
     // 2 Second Sleep
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "2 second sleep suffered an interruption");
     }
-    System.out.println("Second list Stops");
+    LOGGER_F1.log(Level.INFO, "Second list Stops");
     secondList.changeStatus(); // STOP
     // 2 Second Sleep
     try {
       Thread.sleep(2000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "2 second sleep suffered an interruption");
     }
 
-    System.out.println("Transportation Starts");
+    LOGGER_F1.log(Level.INFO, "Transportation Starts");
     transportation.changeStatus(); // START
 
     // 4 Second Sleep
     try {
       Thread.sleep(4000);
     } catch (InterruptedException e) {
-      System.out.println("Error Occurred.");
+      LOGGER_F1.log(Level.SEVERE, "4 second sleep suffered an interruption");
     }
 
-    System.out.println("Transportation Stops");
+    LOGGER_F1.log(Level.INFO, "Transportation Stops");
+
+    data.saveJson(root.toJson()); // Save to JSON
 
     // transportation.changeStatus(); // STOP
-
     // ------PRINTS------
     // Deberia ser un print desde el root que es importado del JSON
     // transportation.print();

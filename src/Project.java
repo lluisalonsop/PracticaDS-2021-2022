@@ -2,6 +2,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.logging.Level;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,17 +20,17 @@ public class Project extends Node {
     super(name);
   }
 
-  /* public Project(String name, LinkedList<String> tags) {
-  //  super(name, tags);}
-  */
+  /*
+   * public Project(String name, LinkedList<String> tags) { // super(name, tags);}
+   */
   @Override
   public void addNode(Node aux) {
     for (Node child : children) {
       if (Objects.equals(child.getName(), aux.getName())) {
         if (aux instanceof Project) {
-          System.out.print("This Project already exists!");
+          LOGGER_F1.log(Level.WARNING, "This Project already exists!");
         } else {
-          System.out.print("This Task already exists!");
+          LOGGER_F1.log(Level.WARNING, "This Task already exists!");
         }
         return;
       }
@@ -120,16 +122,15 @@ public class Project extends Node {
   @Override
   public void printAllDown() {
     for (Node child : children) {
-      child.print();
+      child.printAllDown();
     }
     print();
   }
 
   public void print() {
     long time = getTime();
-    System.out.println("activity :    " + getName() + "                "
-            + getInitialDate() + "      "
-            + getFinalDate() + "                               " + time);
+    LOGGER_F1.log(Level.INFO, "activity :    " + getName() + "                " + getInitialDate() + "      "
+        + getFinalDate() + "                               " + time);
   }
 
   public LinkedList<Node> accept(Visitor v) {

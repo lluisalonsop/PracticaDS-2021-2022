@@ -18,7 +18,3 @@ public class SearchByTagVisitor implements Visitor {
     return new Project("null");
   }
 }
-/*  public void visitTask(Task t) {
-    }
-*/
-

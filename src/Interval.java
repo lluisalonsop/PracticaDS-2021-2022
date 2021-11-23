@@ -3,6 +3,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Observable;
 import java.util.Observer;
 import org.json.JSONObject;
+
 /*
 Interval starts counting when initialized, adding it as an observer.
 In every update EndDate is refreshed until the function end() is called,
@@ -58,8 +59,7 @@ class Interval implements Observer {
     intervalTime = initialDate.until(endDate, ChronoUnit.SECONDS);
   }
 
-
-  //print interval deleted
+  // print interval deleted
   public JSONObject toJson() {
     JSONObject result = new JSONObject();
     result.put("Working", working);
