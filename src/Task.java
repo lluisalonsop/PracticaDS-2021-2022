@@ -1,11 +1,11 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.util.LinkedList;
 
-import java.util.logging.Level;
+
 
 public class Task extends Node {
   private final List<Interval> intervals;
@@ -15,12 +15,12 @@ public class Task extends Node {
 
   public Task(String name) {
     super(name);
-    intervals = new ArrayList<Interval>();
+    intervals = new ArrayList<>();
   }
 
   public Task(String name, LinkedList<String> tags) {
     super(name, tags);
-    intervals = new ArrayList<Interval>();
+    intervals = new ArrayList<>();
   }
 
   public Task(String name, List<Interval> intervalsnew) {
@@ -58,16 +58,21 @@ public class Task extends Node {
     float hours = sumatory % MINUTESTOHOURS;
     sumatory = (int) sumatory / MINUTESTOHOURS;
     float days = sumatory % HOURSTODAYS;
-    System.out.print("Days: " + days + " Hours: " + hours + " Minutes : " + minutes + " Seconds : " + seconds + "\n");
+    System.out.print("Days: " + days + " Hours: " + hours + " Minutes : "
+            + minutes + " Seconds : " + seconds + "\n");
   }
+
 
   public void print() {
     for (int i = 0; i < intervals.size(); i++) {
-      System.out.println("interval " + i + ":                        " + intervals.get(i).getInitialDate() + "   "
-          + intervals.get(i).getFinalDate() + "                                   " + intervals.get(i).getIntervalTime()
+      System.out.println("interval " + i + ":                   "
+              + "     " + intervals.get(i).getInitialDate() + "   "
+          + intervals.get(i).getFinalDate() + "                                   "
+              + intervals.get(i).getIntervalTime()
           + " \n");
     }
-    System.out.println("activity :    " + Name + "       " + getInitialDate() + "    " + getFinalDate()
+    System.out.println("activity :    " + name + "       "
+            + getInitialDate() + "    " + getFinalDate()
         + "                                  " + getTime() + "\n");
   }
 
@@ -79,7 +84,7 @@ public class Task extends Node {
     for (int a = 0; a < depth; a++) {
       System.out.print(aux);
     }
-    System.out.print(Name + ", " + calculateTime() + "\n");
+    System.out.print(name + ", " + calculateTime() + "\n");
 
   }
 
@@ -89,13 +94,13 @@ public class Task extends Node {
 
   public JSONObject toJson() {
     JSONObject result = new JSONObject();
-    result.put("Name", Name);
+    result.put("Name", name);
     result.put("class", "Task");
 
     JSONArray aux = new JSONArray();
 
-    for (int i = 0; i < intervals.size(); i++) {
-      aux.put(intervals.get(i).toJson());
+    for (Interval interval : intervals) {
+      aux.put(interval.toJson());
     }
 
     result.put("activities", aux);
@@ -121,7 +126,7 @@ public class Task extends Node {
     LinkedList<Node> result = new LinkedList<Node>();
 
     Node aux = v.visitNode(this);
-    if (aux.Name != "null") {
+    if (aux.name != "null") {
       result.add(aux);
     }
     return result;
