@@ -11,7 +11,8 @@ Pattern
 
 public abstract class Node {
   protected String name;
-  protected static final  Logger LOGGER = Logger.getLogger("time_tracker");
+  protected static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
+  protected static final Logger LOGGER_F2 = Logger.getLogger("LOGGER_F2");
   protected LinkedList<String> tags = new LinkedList<>();
 
   public Node(String nameToSet) {
