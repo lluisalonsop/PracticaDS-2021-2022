@@ -1,4 +1,3 @@
 public interface Visitor {
-
-    public Node visitNode(Node p);
+  public Node visitNode(Node p);
 }
