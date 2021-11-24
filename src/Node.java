@@ -1,8 +1,8 @@
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONObject;
-import java.util.logging.Level;
 
 /*
 The class Node, collects all the functions from
@@ -13,7 +13,6 @@ Pattern
 public abstract class Node {
   protected String name;
   protected static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
-  protected static final Logger LOGGER_F2 = Logger.getLogger("LOGGER_F2");
   protected LinkedList<String> tags = new LinkedList<>();
 
   public Node(String nameToSet) {
