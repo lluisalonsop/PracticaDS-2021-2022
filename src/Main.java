@@ -1,7 +1,5 @@
 import java.io.IOException;
-
 import java.util.LinkedList;
-
 import java.util.Objects;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
@@ -77,7 +75,7 @@ public class Main {
     }
 
     Json data = new Json("./Data/Initial.json");
-    Node root = data.fromJson(); // imported from JSON
+    final Node root = data.fromJson(); // imported from JSON
 
     LOGGER_F1.log(Level.INFO, "Start Test");
     LOGGER_F1.log(Level.INFO, "Transportation Starts");
