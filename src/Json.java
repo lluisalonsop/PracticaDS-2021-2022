@@ -1,14 +1,14 @@
-import org.json.*;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONObject;
-import java.util.logging.Logger;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /*
 This class has three functionalities
@@ -17,14 +17,8 @@ This class has three functionalities
 3.- Creates a new .JSON file from a string
 */
 
-public class Json {
-  private String route;
-  protected static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
-  protected static final Logger LOGGER_F2 = Logger.getLogger("LOGGER_F2");
-
-  public Json(String route) {
-    this.route = route;
-  }
+public record Json(String route) {
+  private static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
 
   private Node createFromJson(JSONObject jsonObject) {
 
@@ -39,18 +33,17 @@ public class Json {
 
     if (jsonObject.get("class").toString().equals("Task")) {
 
-      List<Interval> intervals = new ArrayList<Interval>();
+      List<Interval> intervals = new ArrayList<>();
 
       JSONArray jsonArray = jsonObject.getJSONArray("activities");
 
       for (int i = 0; i < jsonArray.length(); i++) {
         JSONObject aux = jsonArray.getJSONObject(i);
-        intervals.add(new Interval(aux.getBoolean("Working"), aux.getString("InitialDate"), aux.getString("EndDate")));
+        intervals.add(new Interval(aux.getBoolean("Working"),
+                aux.getString("InitialDate"), aux.getString("EndDate")));
       }
 
-      Task result = new Task(jsonObject.getString("Name"), intervals);
-
-      return result;
+      return new Task(jsonObject.getString("Name"), intervals);
 
     }
 
@@ -61,13 +54,14 @@ public class Json {
     try {
       Reader fileReader = new FileReader(this.route);
       char[] destination = new char[102400];
-      fileReader.read(destination, 0, destination.length);
-
+      int x = fileReader.read(destination, 0, destination.length);
       String object = new String(destination);
-
       JSONObject jsonobj = new JSONObject(object);
       Node root = createFromJson(jsonobj);
       fileReader.close();
+      if (x == -1) {
+        return root;
+      }
       return root;
 
     } catch (FileNotFoundException e) {
