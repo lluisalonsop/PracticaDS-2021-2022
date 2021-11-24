@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.logging.Level;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -125,7 +124,8 @@ public class Project extends Node {
 
   public void print() {
     long time = getTime();
-    LOGGER_F1.log(Level.INFO, "activity :    " + getName() + "                " + getInitialDate() + "      "
+    LOGGER_F1.log(Level.INFO, "activity :    " + getName() + " "
+            + "               " + getInitialDate() + "      "
         + getFinalDate() + "                               " + time);
   }
 
