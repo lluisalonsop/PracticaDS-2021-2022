@@ -14,6 +14,6 @@ public class SearchByTagVisitor implements Visitor {
         return p;
       }
     }
-    return new Project("null");
+    return new Project("null", 0);
   }
 }

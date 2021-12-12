@@ -2,8 +2,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.LinkedList;
 import java.util.Objects;
+
 public class Main {
-  private static  Logger logger = null;
+  private static Logger logger = null;
+
   public static void main(String[] args) {
     logger = LoggerFactory.getLogger(Main.class);
     Timer.getInstance();
@@ -13,11 +15,11 @@ public class Main {
     LinkedList<String> tags = new LinkedList<>();
     tags.add("Software");
     tags.add("Hardware");
-    Project master = new Project("Master");
-    Project lists = new Project("Lists");
-    Task transportation = new Task("transportation");
-    Task firstList = new Task("first list");
-    Task secondList = new Task("second list", tags);
+    Project master = new Project("Master", 0);
+    Project lists = new Project("Lists", 1);
+    Task transportation = new Task("transportation", 2);
+    Task firstList = new Task("first list", 3);
+    Task secondList = new Task("second list", 4, tags);
 
     lists.addNode(firstList);
     lists.addNode(secondList);
@@ -36,7 +38,7 @@ public class Main {
       logger.warn("Search_by_tag_isn't_working!");
     }
 
-    Json data = new Json("./Data/Initial.json");
+    Json data = new Json("./Data/Initial.json", "./Data/destination.json");
     final Node root = data.fromJson(); // imported from JSON
 
     logger.info("Start_Test");
@@ -105,7 +107,7 @@ public class Main {
 
     logger.info("Transportation Stops");
 
-    data.saveJson(root.toJson()); // Save to JSON
+    data.saveJson(root.toJson(-1)); // Save to JSON
 
     // transportation.changeStatus(); // STOP
     // ------PRINTS------

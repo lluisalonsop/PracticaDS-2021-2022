@@ -12,18 +12,21 @@ Pattern
 
 public abstract class Node {
   protected String name;
+  protected int id;
   protected static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
   protected LinkedList<String> tags = new LinkedList<>();
 
-  public Node(String nameToSet) {
+  public Node(String nameToSet, int id) {
     assert (nameToSet == "") : String.format("El nombre no puede estar vacio");
     this.name = nameToSet;
+    this.id = id;
   }
 
-  public Node(String nameToSet, LinkedList<String> tagsToSet) {
+  public Node(String nameToSet, int id, LinkedList<String> tagsToSet) {
     assert (nameToSet == "") : String.format("El nombre no puede estar vacio");
     this.name = nameToSet;
     this.tags = tagsToSet;
+    this.id = id;
   }
 
   public long getTime() {
@@ -61,7 +64,7 @@ public abstract class Node {
     return 0;
   }
 
-  public JSONObject toJson() {
+  public JSONObject toJson(int depth) {
     return new JSONObject();
   }
 

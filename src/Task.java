@@ -10,18 +10,18 @@ import java.util.logging.Level;
 public class Task extends Node {
   private final List<Interval> intervals;
 
-  public Task(String name) {
-    super(name);
+  public Task(String name, int id) {
+    super(name, id);
     intervals = new ArrayList<>();
   }
 
-  public Task(String name, LinkedList<String> tags) {
-    super(name, tags);
+  public Task(String name, int id, LinkedList<String> tags) {
+    super(name, id, tags);
     intervals = new ArrayList<>();
   }
 
-  public Task(String name, List<Interval> intervalsnew) {
-    super(name);
+  public Task(String name, int id, List<Interval> intervalsnew) {
+    super(name, id);
     intervals = intervalsnew;
   }
 
@@ -74,9 +74,10 @@ public class Task extends Node {
     return calculateTime();
   }
 
-  public JSONObject toJson() {
+  public JSONObject toJson(int depth) {
     JSONObject result = new JSONObject();
     result.put("Name", name);
+    result.put("id", id);
     result.put("class", "Task");
 
     JSONArray aux = new JSONArray();

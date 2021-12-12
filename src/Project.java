@@ -15,8 +15,8 @@ him we save it to the LinkedList of Node called children
 public class Project extends Node {
   protected LinkedList<Node> children = new LinkedList<>();
 
-  public Project(String name) {
-    super(name);
+  public Project(String name, int id) {
+    super(name, id);
   }
 
   /*
@@ -106,15 +106,21 @@ public class Project extends Node {
     return timeCount;
   }
 
-  public JSONObject toJson() {
+  public JSONObject toJson(int depth) {
+    if (depth != -1) {
+      depth = depth - 1;
+    }
     JSONObject result = new JSONObject();
     result.put("Name", name);
+    result.put("id", id);
     result.put("class", "Project");
 
     JSONArray aux = new JSONArray();
 
-    for (Node child : children) {
-      aux.put(child.toJson());
+    if (depth > 0 || depth == -1) {
+      for (Node child : children) {
+        aux.put(child.toJson(depth));
+      }
     }
 
     result.put("activities", aux);
@@ -125,7 +131,7 @@ public class Project extends Node {
   public void print() {
     long time = getTime();
     LOGGER_F1.log(Level.INFO, "activity :    " + getName() + " "
-            + "               " + getInitialDate() + "      "
+        + "               " + getInitialDate() + "      "
         + getFinalDate() + "                               " + time);
   }
 

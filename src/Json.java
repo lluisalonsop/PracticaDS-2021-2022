@@ -17,13 +17,13 @@ This class has three functionalities
 3.- Creates a new .JSON file from a string
 */
 
-public record Json(String route) {
+public record Json(String route, String dest) {
   private static final Logger LOGGER_F1 = Logger.getLogger("LOGGER_F1");
 
   private Node createFromJson(JSONObject jsonObject) {
 
     if (jsonObject.get("class").toString().equals("Project")) {
-      Project result = new Project(jsonObject.getString("Name"));
+      Project result = new Project(jsonObject.getString("Name"), jsonObject.getInt("id"));
       JSONArray jsonArray = jsonObject.getJSONArray("activities");
       for (int i = 0; i < jsonArray.length(); i++) {
         result.addNode(createFromJson(jsonArray.getJSONObject(i)));
@@ -40,14 +40,14 @@ public record Json(String route) {
       for (int i = 0; i < jsonArray.length(); i++) {
         JSONObject aux = jsonArray.getJSONObject(i);
         intervals.add(new Interval(aux.getBoolean("Working"),
-                aux.getString("InitialDate"), aux.getString("EndDate")));
+            aux.getString("InitialDate"), aux.getString("EndDate")));
       }
 
-      return new Task(jsonObject.getString("Name"), intervals);
+      return new Task(jsonObject.getString("Name"), jsonObject.getInt("id"), intervals);
 
     }
 
-    return new Project("");
+    return new Project("", 0);
   }
 
   public Node fromJson() {
@@ -70,13 +70,13 @@ public record Json(String route) {
       LOGGER_F1.log(Level.SEVERE, "Error on Json, IOException");
     }
 
-    return new Project("");
+    return new Project("", 0);
   }
 
   public void saveJson(JSONObject jsonObject) {
     FileWriter file = null;
     try {
-      file = new FileWriter(this.route);
+      file = new FileWriter(this.dest);
       file.write(jsonObject.toString());
 
     } catch (Exception e) {
