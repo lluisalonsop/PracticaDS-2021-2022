@@ -40,10 +40,10 @@ public class Task extends Node {
       if (intervals.get(intervals.size() - 1).getStatus()) {
         intervals.get(intervals.size() - 1).end();
       } else {
-        intervals.add(new Interval());
+        intervals.add(new Interval(intervals.size()));
       }
     } else {
-      intervals.add(new Interval());
+      intervals.add(new Interval(intervals.size()));
     }
   }
 
@@ -76,9 +76,16 @@ public class Task extends Node {
 
   public JSONObject toJson(int depth) {
     JSONObject result = new JSONObject();
-    result.put("Name", name);
+    result.put("name", name);
     result.put("id", id);
-    result.put("class", "Task");
+    result.put("class", "task");
+    result.put("duration", getTime());
+
+    try {
+      result.put("active", intervals.get(intervals.size() - 1).getStatus());
+    } catch (Exception e) {
+      result.put("active", false);
+    }
 
     JSONArray aux = new JSONArray();
 
@@ -86,7 +93,7 @@ public class Task extends Node {
       aux.put(interval.toJson());
     }
 
-    result.put("activities", aux);
+    result.put("intervals", aux);
 
     return result;
   }

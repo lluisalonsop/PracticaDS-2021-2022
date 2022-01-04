@@ -107,19 +107,18 @@ public class Project extends Node {
   }
 
   public JSONObject toJson(int depth) {
-    if (depth != -1) {
-      depth = depth - 1;
-    }
+
     JSONObject result = new JSONObject();
-    result.put("Name", name);
+    result.put("name", name);
     result.put("id", id);
-    result.put("class", "Project");
+    result.put("class", "project");
+    result.put("duration", getTime());
 
     JSONArray aux = new JSONArray();
 
-    if (depth > 0 || depth == -1) {
+    if (depth > 0 || depth <= -1) {
       for (Node child : children) {
-        aux.put(child.toJson(depth));
+        aux.put(child.toJson(depth - 1));
       }
     }
 

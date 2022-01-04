@@ -3,6 +3,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Observable;
 import java.util.Observer;
 import org.json.JSONObject;
+import java.time.format.DateTimeFormatter;
 
 /*
 Interval starts counting when initialized, adding it as an observer.
@@ -15,14 +16,17 @@ class Interval implements Observer {
   private final LocalDateTime initialDate;
   private LocalDateTime endDate;
   private long intervalTime;
+  private int id;
 
-  public Interval() {
+  public Interval(int id) {
+    this.id = id;
     working = true;
     initialDate = LocalDateTime.now();
     Timer.getInstance().addObserver(this);
   }
 
-  public Interval(boolean workingToSet, String initialDateToSet, String endDateToSet) {
+  public Interval(boolean workingToSet, String initialDateToSet, String endDateToSet, int id) {
+    this.id = id;
     this.working = workingToSet;
     this.initialDate = LocalDateTime.parse(initialDateToSet);
     this.endDate = LocalDateTime.parse(endDateToSet);
@@ -61,10 +65,14 @@ class Interval implements Observer {
 
   // print interval deleted
   public JSONObject toJson() {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     JSONObject result = new JSONObject();
-    result.put("Working", working);
-    result.put("InitialDate", initialDate);
-    result.put("EndDate", endDate);
+    result.put("active", working);
+    result.put("initialDate", initialDate.format(formatter));
+    result.put("finalDate", endDate.format(formatter));
+    calculateTime();
+    result.put("duration", intervalTime);
+    result.put("id", id);
     return result;
   }
 }
