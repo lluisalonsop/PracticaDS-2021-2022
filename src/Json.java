@@ -40,7 +40,7 @@ public record Json(String route, String dest) {
       for (int i = 0; i < jsonArray.length(); i++) {
         JSONObject aux = jsonArray.getJSONObject(i);
         intervals.add(new Interval(aux.getBoolean("Working"),
-            aux.getString("InitialDate"), aux.getString("EndDate"), i));
+            aux.getString("InitialDate"), aux.getString("EndDate"), LocalDateTime.now().hashCode()));
       }
 
       return new Task(jsonObject.getString("Name"), jsonObject.getInt("id"), intervals);
