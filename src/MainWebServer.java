@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 public class MainWebServer {
@@ -10,10 +11,10 @@ public class MainWebServer {
     tags.add("Software");
     tags.add("Hardware");
     Project master = new Project("Master", 0);
-    Project lists = new Project("Lists", 1);
-    Task transportation = new Task("transportation", 2);
-    Task firstList = new Task("first list", 3);
-    Task secondList = new Task("second list", 4, tags);
+    Project lists = new Project("Lists", LocalDateTime.now().hashCode() + 1);
+    Task transportation = new Task("transportation", LocalDateTime.now().hashCode() + 2);
+    Task firstList = new Task("first list", LocalDateTime.now().hashCode() + 3);
+    Task secondList = new Task("second list", LocalDateTime.now().hashCode() + 4, tags);
 
     lists.addNode(firstList);
     lists.addNode(secondList);

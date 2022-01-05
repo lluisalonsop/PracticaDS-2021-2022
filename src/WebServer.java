@@ -4,8 +4,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.StringTokenizer;
 import java.util.LinkedList;
+import org.json.JSONArray;
 
 // Based on 
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -109,6 +111,8 @@ public class WebServer {
 
     private String makeBodyAnswer(String[] tokens) {
       String body = "";
+      System.out.println("TOKENS: ");
+      System.out.println(tokens[0]);
       switch (tokens[0]) {
         case "get_tree": {
           int id = Integer.parseInt(tokens[1]);
@@ -135,7 +139,55 @@ public class WebServer {
           body = "{}";
           break;
         }
-        // TODO: add new task, project
+        case "createProject": {
+          String name = tokens[1];
+          int id = Integer.parseInt(tokens[3]);
+          int tagged = Integer.parseInt(tokens[4]);
+          LinkedList<String> tags = new LinkedList<>();
+          Node node = findNodeById(id);
+          System.out.println("Tagged: ");
+          System.out.println(tagged);
+
+          if (tagged == 1) {
+            String tag = tokens[2];
+            tags.add(tag);
+            node.addNode(new Project(name, LocalDateTime.now().hashCode(), tags));
+          } else {
+            node.addNode(new Project(name, LocalDateTime.now().hashCode()));
+          }
+          System.out.println("Name: ");
+          System.out.println(name);
+          System.out.println("IDPARENT: ");
+          System.out.println(id);
+          break;
+        }
+        case "createTask": {
+          String name = tokens[1];
+          int id = Integer.parseInt(tokens[3]);
+          int tagged = Integer.parseInt(tokens[4]);
+          LinkedList<String> tags = new LinkedList<>();
+          Node node = findNodeById(id);
+          if (tagged == 1) {
+            String tag = tokens[2];
+            tags.add(tag);
+            node.addNode(new Task(name, LocalDateTime.now().hashCode(), tags));
+          } else {
+            node.addNode(new Task(name, LocalDateTime.now().hashCode()));
+          }
+          System.out.println("Name: ");
+          System.out.println(name);
+          System.out.println("IDPARENT: ");
+          System.out.println(id);
+          break;
+        }
+        case "update": {
+          Node node = findNodeById(Integer.parseInt(tokens[1]));
+          JSONArray array = new JSONArray(tokens[3]);
+          array.forEach(action);
+          LinkedList<String> aux = new LinkedList<String>();
+          node.update(tokens[2], aux);
+          break;
+        }
         // TODO: edit task, project properties
         default:
           assert false;

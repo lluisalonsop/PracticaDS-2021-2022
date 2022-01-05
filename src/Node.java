@@ -29,6 +29,11 @@ public abstract class Node {
     this.id = id;
   }
 
+  public void update(String n, LinkedList<String> t) {
+    name = name == null ? name : n;
+    tags = t == null ? tags : t;
+  }
+
   public long getTime() {
     return 0;
   }

@@ -19,11 +19,16 @@ public class Project extends Node {
     super(name, id);
   }
 
+  public Project(String name, int id, LinkedList<String> tagsToSet) {
+    super(name, id, tagsToSet);
+  }
+
   /*
    * public Project(String name, LinkedList<String> tags) { // super(name, tags);}
    */
   @Override
   public void addNode(Node aux) {
+
     assert (aux.getName() == "") : String.format("El nombre no puede estar vacio");
     for (Node child : children) {
       if (Objects.equals(child.getName(), aux.getName())) {
@@ -35,6 +40,7 @@ public class Project extends Node {
         return;
       }
     }
+
     children.add(aux);
   }
 
