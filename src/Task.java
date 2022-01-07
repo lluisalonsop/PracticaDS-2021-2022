@@ -87,6 +87,18 @@ public class Task extends Node {
       result.put("active", false);
     }
 
+    String tagsresult = "[";
+    if (!tags.isEmpty()) {
+      tagsresult += '"' + tags.get(0) + '"';
+      for (int i = 1; i < tags.size(); i++) {
+        tagsresult += ",";
+        tagsresult += '"' + tags.get(i) + '"';
+      }
+    }
+    tagsresult += "]";
+
+    result.put("tags", tagsresult);
+
     JSONArray aux = new JSONArray();
 
     for (Interval interval : intervals) {

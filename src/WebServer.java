@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.time.LocalDateTime;
 import java.util.StringTokenizer;
 import java.util.LinkedList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 // Based on 
 // https://www.ssaurel.com/blog/create-a-simple-http-web-server-in-java
@@ -138,64 +140,79 @@ public class WebServer {
           body = "{}";
           break;
         }
-        case"createProject":{
+
+        case "createProject": {
           String name = tokens[1];
           int id = Integer.parseInt(tokens[3]);
           int tagged = Integer.parseInt(tokens[2]);
           LinkedList<String> tags = new LinkedList<>();
           Node node = findNodeById(id);
-          System.out.println("Tagged: ");
-          System.out.println(tagged);
-          LinkedList<String> tagstoSet = new LinkedList<String>();
-          if (tagged == 1){
-            for(int i = 4; i < tokens.length;i++){
-              String actualword = tokens[i];
-              if (actualword == null){
-                break;
-              }
-              tagstoSet.add(actualword);
-            }
-            node.addNode(new Project(name, LocalDateTime.now().hashCode(),tags));
-          }else{
+
+          JSONArray aux = new JSONArray(java.net.URLDecoder.decode(tokens[4]));
+
+          aux.forEach(value -> {
+            tags.add(value.toString());
+          });
+
+          if (tagged == 1) {
+            node.addNode(new Project(name, LocalDateTime.now().hashCode(), tags));
+          } else {
             node.addNode(new Project(name, LocalDateTime.now().hashCode()));
           }
-          System.out.println("Name: ");
-          System.out.println(name);
-          System.out.println("IDPARENT: ");
-          System.out.println(id);
-          System.out.println("TAGS OF PROJECT: ");
-          for (int i =0; i < tagstoSet.size();i++){
-            System.out.println("Tag:");
-            System.out.println(i);
-            System.out.println("value: ");
-            System.out.println(tagstoSet.get(i));
-          }
           break;
         }
-        case"createTask":{
+
+        case "createTask": {
           String name = tokens[1];
           int id = Integer.parseInt(tokens[3]);
           int tagged = Integer.parseInt(tokens[2]);
+
+          JSONArray aux = new JSONArray(java.net.URLDecoder.decode(tokens[4]));
+
           LinkedList<String> tags = new LinkedList<>();
+
+          aux.forEach(value -> {
+            tags.add(value.toString());
+          });
+
           Node node = findNodeById(id);
-          if (tagged == 1){
-            LinkedList<String> tagstoSet = new LinkedList<String>();
-            for(int i = 4; i < tokens.length;i++){
-              String actualword = tokens[i];
-              tagstoSet.add(actualword);
-            }
-            node.addNode(new Task(name, LocalDateTime.now().hashCode(),tagstoSet));
-          }
-          else{
+          if (tagged == 1) {
+            node.addNode(new Task(name, LocalDateTime.now().hashCode(), tags));
+          } else {
             node.addNode(new Task(name, LocalDateTime.now().hashCode()));
           }
-          System.out.println("Name: ");
-          System.out.println(name);
-          System.out.println("IDPARENT: ");
-          System.out.println(id);
           break;
         }
-        // TODO: edit task, project properties
+
+        case "update": {
+          Node node = findNodeById(Integer.parseInt(tokens[1]));
+          JSONArray aux = new JSONArray(java.net.URLDecoder.decode(tokens[3]));
+
+          LinkedList<String> tags = new LinkedList<>();
+          aux.forEach(value -> {
+            tags.add(value.toString());
+          });
+
+          node.update(tokens[2], tags);
+          break;
+        }
+
+        case "search": {
+          SearchByTagVisitor v = new SearchByTagVisitor(tokens[1]);
+          Node node = findNodeById(0);
+
+          LinkedList<Node> result = node.accept(v);
+
+          Project master = new Project("Master", 0);
+
+          result.forEach((Node value) -> {
+            master.addNode(value);
+          });
+
+          body = master.toJson(1).toString();
+          break;
+        }
+
         default:
           assert false;
       }
