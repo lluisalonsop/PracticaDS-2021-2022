@@ -18,17 +18,13 @@ public class Project extends Node {
   public Project(String name, int id) {
     super(name, id);
   }
-
-  public Project(String name, int id, LinkedList<String> tagsToSet) {
-    super(name, id, tagsToSet);
-  }
+  public Project(String name,int id,LinkedList<String> tagsToSet) {super(name,id,tagsToSet);}
 
   /*
    * public Project(String name, LinkedList<String> tags) { // super(name, tags);}
    */
   @Override
   public void addNode(Node aux) {
-
     assert (aux.getName() == "") : String.format("El nombre no puede estar vacio");
     for (Node child : children) {
       if (Objects.equals(child.getName(), aux.getName())) {
@@ -40,7 +36,6 @@ public class Project extends Node {
         return;
       }
     }
-
     children.add(aux);
   }
 
@@ -119,6 +114,17 @@ public class Project extends Node {
     result.put("id", id);
     result.put("class", "project");
     result.put("duration", getTime());
+    String tagsresult = "[";
+    if (!tags.isEmpty()) {
+      tagsresult += tags.get(0);
+      for (int i = 1; i < tags.size(); i++) {
+        tagsresult +=  ",";
+        tagsresult += tags.get(i);
+      }
+    }
+    tagsresult +=  "]";
+
+    result.put("tags",tagsresult);
 
     JSONArray aux = new JSONArray();
 
@@ -136,8 +142,8 @@ public class Project extends Node {
   public void print() {
     long time = getTime();
     LOGGER_F1.log(Level.INFO, "activity :    " + getName() + " "
-        + "               " + getInitialDate() + "      "
-        + getFinalDate() + "                               " + time);
+            + "               " + getInitialDate() + "      "
+            + getFinalDate() + "                               " + time);
   }
 
   public LinkedList<Node> accept(Visitor v) {
